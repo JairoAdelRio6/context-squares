@@ -1,6 +1,6 @@
 # squares
 
-This module only provide two commands:
+This module only provides two commands:
 
 1. `\magicsquare` typesets a magic square.
 2. `\latinsquare` typesets a Latin square.
