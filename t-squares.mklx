@@ -1,0 +1,194 @@
+%D \module
+%D   [     file=t-squares,
+%D      version=2023-08-01,
+%D        title=\CONTEXT\ User Module,
+%D     subtitle=Squares for ConTeXt,
+%D       author=Jairo A. del Rio,
+%D         date=\currentdate,
+%D    copyright=Jairo A. del Rio,
+%D        email=jairoadelrio6@gmail.com,
+%D      license=MIT License]
+
+%C Copyright (c) 2023 Jairo A. del Rio
+%C
+%C Permission is hereby granted, free of charge, to any person obtaining
+%C a copy of this software and associated documentation files (the
+%C "Software"), to deal in the Software without restriction, including
+%C without limitation the rights to use, copy, modify, merge, publish,
+%C distribute, sublicense, and/or sell copies of the Software, and to
+%C permit persons to whom the Software is furnished to do so, subject to
+%C the following conditions:
+%C
+%C The above copyright notice and this permission notice shall be
+%C included in all copies or substantial portions of the Software.
+%C
+%C THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+%C EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+%C MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+%C IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+%C CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+%C TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+%C SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+\writestatus{loading}{Squares for ConTeXt!}
+
+\startmodule[squares]
+
+\unprotect
+
+\registerctxluafile{t-squares}{autosuffix}
+
+\installnamespace                           {magicsquare}
+\installsimplecommandhandler\????magicsquare{magicsquare}\????magicsquare
+
+\startsetups[\????magicsquare:\c!renderingsetup:\v!color]
+\dorecurse{\numexpr\magicsquareparameter\c!n}{
+  \dorecurse{\numexpr\magicsquareparameter\c!n}{
+    \definecolor[\????magicsquare:\v!color:##1:####1]
+      [h=\the\numexpr(360*\clf_magicsquarecell\numexpr##1\relax\numexpr####1\relax):(\magicsquareparameter\c!n*\magicsquareparameter\c!n)\relax,
+       v=1,
+       s=0.5]%
+    \setupTABLE[####1][##1]
+      [\c!background=\v!color,
+       \c!backgroundcolor=\????magicsquare:\v!color:##1:####1]%
+  }
+}
+\stopsetups
+
+\setupmagicsquare
+  [\c!n=5,
+   \c!size=2em,
+   \c!align={\v!middle,\v!lohi},
+   \c!renderingsetup=\v!none]
+
+\tolerant\protected\def\magicsquare[#parameters]%
+{\begingroup%
+ \ifarguments\or
+ \setupmagicsquare[#parameters]%
+ \fi
+ \clf_magicsquareinit\numexpr\magicsquareparameter\c!n\relax%
+ \ifcstok{\magicsquareparameter\c!renderingsetup}\emptytoks
+ \else
+  \directsetup{\????magicsquare:\c!renderingsetup:\magicsquareparameter\c!renderingsetup}%
+ \fi
+ \bTABLE
+  [#parameters,
+   \c!width=\magicsquareparameter\c!size,
+   \c!height=\magicsquareparameter\c!size,
+   \c!align=\magicsquareparameter\c!align]%
+ \clf_magicsquare%
+ \eTABLE%
+ \clf_magicsquarereset%
+ \endgroup}
+
+\installnamespace{latinsquare}
+\installsimplecommandhandler\????latinsquare{latinsquare}\????latinsquare
+
+\startsetups[\????latinsquare:\c!renderingsetup:\v!none]
+\stopsetups
+
+\startsetups[\????latinsquare:\c!renderingsetup:\v!color]
+\dorecurse{\numexpr\latinsquareparameter\c!n}{
+  \definecolor[\????latinsquare:\v!color:##1][h=\the\numexpr(360*##1):(\magicsquareparameter\c!n)\relax,v=1,s=0.5]%
+  \dorecurse{\numexpr\latinsquareparameter\c!n}{
+   \setupTABLE[####1][##1]
+    [\c!background=\v!color,
+     \c!backgroundcolor=\????latinsquare:\v!color:\clf_latinsquarecell\numexpr##1\relax\numexpr####1\relax]%
+  }
+}
+\stopsetups
+
+\setuplatinsquare
+  [\c!n=5,
+   \c!size=2em,
+   \c!align={\v!middle,\v!lohi},
+   \c!renderingsetup=\v!none]
+
+\tolerant\protected\def\latinsquare[#parameters]%
+{\begingroup%
+ \ifarguments\or
+ \setuplatinsquare[#parameters]%
+ \fi
+ \clf_latinsquareinit\numexpr\latinsquareparameter\c!n\relax%
+ \ifcstok{\latinsquareparameter\c!renderingsetup}\emptytoks
+ \else
+  \directsetup{\????latinsquare:\c!renderingsetup:\latinsquareparameter\c!renderingsetup}%
+ \fi
+ \bTABLE
+  [#parameters,
+   \c!width=\latinsquareparameter\c!size,
+   \c!height=\latinsquareparameter\c!size,
+   \c!align=\latinsquareparameter\c!align]%
+ \clf_latinsquare%
+ \eTABLE%
+ \clf_latinsquarereset%
+ \endgroup}
+
+\protect
+
+\stopmodule
+
+\continueifinputfile{t-squares.mklx}
+
+\starttext
+
+\startsection[title=\type{\magicsquare}]
+
+% Magic squares
+
+\startbuffer
+\magicsquare[n=6,renderingsetup=color]
+\stopbuffer
+
+\typebuffer
+
+\getbuffer
+
+\startbuffer
+\magicsquare[n=7,renderingsetup=color]
+\stopbuffer
+
+\typebuffer
+
+\getbuffer
+
+\startbuffer
+\magicsquare[n=8,renderingsetup=color]
+\stopbuffer
+
+\typebuffer
+
+\getbuffer
+
+\startbuffer
+\magicsquare[n=2]
+\stopbuffer
+
+\typebuffer
+
+\getbuffer
+
+\stopsection
+
+% Latin squares
+
+\startsection[title=\type{\latinsquare}]
+
+\startbuffer
+\latinsquare[n=7]
+\stopbuffer
+
+\typebuffer
+
+\getbuffer
+
+\startbuffer
+\latinsquare[n=5,renderingsetup=color]
+\stopbuffer
+
+\typebuffer
+
+\getbuffer
+
+\stopsection
+\stoptext
