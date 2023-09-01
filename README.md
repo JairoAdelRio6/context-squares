@@ -40,4 +40,6 @@ You might be more impatient and want to define your own. So, this is how:
 ```
 
 _Caveat emptor_: this module is only for ConTeXt LMTX. I no longer use
-ConTeXt MKIV, so no support is provided, sorry.
+ConTeXt MKIV, so no support is provided, sorry. Moreover, I'm using
+cutting-edge features, such as new macro extensions. An updated
+distribution is recommended.

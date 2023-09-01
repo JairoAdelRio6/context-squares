@@ -1,6 +1,6 @@
 %D \module
 %D   [     file=t-squares,
-%D      version=2023-08-31,
+%D      version=2023-09-01,
 %D        title=\CONTEXT\ User Module,
 %D     subtitle=Squares for ConTeXt,
 %D       author=Jairo A. del Rio,
@@ -34,23 +34,23 @@
 
 \startmodule[squares]
 
-\unprotect
-
 \registerctxluafile{t-squares}{autosuffix}
+
+\unprotect
 
 \installnamespace                           {magicsquare}
 \installsimplecommandhandler\????magicsquare{magicsquare}\????magicsquare
 
 \startsetups[\????magicsquare:\c!renderingsetup:\v!color]
-\dorecurse{\numexpr\magicsquareparameter\c!n}{
-  \dorecurse{\numexpr\magicsquareparameter\c!n}{
-    \definecolor[\????magicsquare:\v!color:##1:####1]
-      [h=\the\numexpr(360*\clf_magicsquarecell\numexpr##1\relax\numexpr####1\relax):(\magicsquareparameter\c!n*\magicsquareparameter\c!n)\relax,
+\expandedloop 1 \numexpr\magicsquareparameter\c!n\relax 1{
+  \expandedloop 1 \numexpr\magicsquareparameter\c!n\relax 1{
+    \definecolor[\????magicsquare:\v!color:##P:##I]
+      [h=\the\numexpr(360*\clf_magicsquarecell##P##I):(\magicsquareparameter\c!n*\magicsquareparameter\c!n)\relax,
        v=1,
        s=0.5]%
-    \setupTABLE[##1][####1]
+    \setupTABLE[##P][##I]
       [\c!background=\v!color,
-       \c!backgroundcolor=\????magicsquare:\v!color:##1:####1]%
+       \c!backgroundcolor=\????magicsquare:\v!color:##P:##I]%
   }
 }
 \stopsetups
@@ -61,7 +61,7 @@
    \c!align={\v!middle,\v!lohi},
    \c!renderingsetup=\v!none]
 
-\permanent\tolerant\protected\def\magicsquare[#parameters]%
+\permanent\tolerant\protected\def\magicsquare[#S#parameters]%
 {\begingroup%
  \ifarguments\or
  \setupmagicsquare[#parameters]%
@@ -81,19 +81,19 @@
  \clf_magicsquarereset%
  \endgroup}
 
-\installnamespace{latinsquare}
+\installnamespace                           {latinsquare}
 \installsimplecommandhandler\????latinsquare{latinsquare}\????latinsquare
 
 \startsetups[\????latinsquare:\c!renderingsetup:\v!none]
 \stopsetups
 
 \startsetups[\????latinsquare:\c!renderingsetup:\v!color]
-\dorecurse{\numexpr\latinsquareparameter\c!n}{
-  \definecolor[\????latinsquare:\v!color:##1][h=\the\numexpr(360*##1):(\magicsquareparameter\c!n)\relax,v=1,s=0.5]%
-  \dorecurse{\numexpr\latinsquareparameter\c!n}{
-   \setupTABLE[##1][####1]
+\expandedloop 1 \numexpr\latinsquareparameter\c!n\relax 1{
+  \definecolor[\????latinsquare:\v!color:##I][h=\the\numexpr(360*##I):(\latinsquareparameter\c!n)\relax,v=1,s=0.5]%
+  \expandedloop 1 \numexpr\latinsquareparameter\c!n\relax 1{
+   \setupTABLE[##P][##I]
     [\c!background=\v!color,
-     \c!backgroundcolor=\????latinsquare:\v!color:\clf_latinsquarecell\numexpr##1\relax\numexpr####1\relax]%
+     \c!backgroundcolor=\????latinsquare:\v!color:\clf_latinsquarecell##P##I]%
   }
 }
 \stopsetups
@@ -104,13 +104,13 @@
    \c!align={\v!middle,\v!lohi},
    \c!renderingsetup=\v!none]
 
-\permanent\tolerant\protected\def\latinsquare[#parameters]%
+\permanent\tolerant\protected\def\latinsquare[#S#parameters]%
 {\begingroup%
  \ifarguments\or
  \setuplatinsquare[#parameters]%
  \fi
  \clf_latinsquareinit\numexpr\latinsquareparameter\c!n\relax%
- \ifcstok{\latinsquareparameter\c!renderingsetup}\emptytoks
+ \ifempty{\latinsquareparameter\c!renderingsetup}
  \else
   \directsetup{\????latinsquare:\c!renderingsetup:\latinsquareparameter\c!renderingsetup}%
  \fi
