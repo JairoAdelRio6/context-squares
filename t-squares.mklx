@@ -42,8 +42,8 @@
 \installsimplecommandhandler\????magicsquare{magicsquare}\????magicsquare
 
 \startsetups[\????magicsquare:\c!renderingsetup:\v!color]
-\expandedloop 1 \numexpr\magicsquareparameter\c!n\relax 1{
-  \expandedloop 1 \numexpr\magicsquareparameter\c!n\relax 1{
+\expandedrepeat\numexpr\magicsquareparameter\c!n\relax{
+  \expandedrepeat\numexpr\magicsquareparameter\c!n\relax{
     \definecolor[\????magicsquare:\v!color:##P:##I]
       [h=\the\numexpr(360*\clf_magicsquarecell##P##I):(\magicsquareparameter\c!n*\magicsquareparameter\c!n)\relax,
        v=1,
@@ -88,9 +88,9 @@
 \stopsetups
 
 \startsetups[\????latinsquare:\c!renderingsetup:\v!color]
-\expandedloop 1 \numexpr\latinsquareparameter\c!n\relax 1{
+\expandedrepeat\numexpr\latinsquareparameter\c!n\relax{
   \definecolor[\????latinsquare:\v!color:##I][h=\the\numexpr(360*##I):(\latinsquareparameter\c!n)\relax,v=1,s=0.5]%
-  \expandedloop 1 \numexpr\latinsquareparameter\c!n\relax 1{
+  \expandedrepeat\numexpr\latinsquareparameter\c!n\relax{
    \setupTABLE[##P][##I]
     [\c!background=\v!color,
      \c!backgroundcolor=\????latinsquare:\v!color:\clf_latinsquarecell##P##I]%
@@ -175,7 +175,7 @@
 \startsection[title=\type{\latinsquare}]
 
 \startbuffer
-\latinsquare[n=7]
+\latinsquare[n=7,renderingsetup=color]
 \stopbuffer
 
 \typebuffer
