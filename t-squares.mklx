@@ -1,6 +1,6 @@
 %D \module
 %D   [     file=t-squares,
-%D      version=2023-09-01,
+%D      version=2024-01-04,
 %D        title=\CONTEXT\ User Module,
 %D     subtitle=Squares for ConTeXt,
 %D       author=Jairo A. del Rio,
@@ -9,7 +9,7 @@
 %D        email=jairoadelrio6@gmail.com,
 %D      license=MIT License]
 
-%C Copyright (c) 2023 Jairo A. del Rio
+%C Copyright (c) 2023-2024 Jairo A. del Rio
 %C
 %C Permission is hereby granted, free of charge, to any person obtaining
 %C a copy of this software and associated documentation files (the
@@ -38,16 +38,17 @@
 
 \unprotect
 
-\installnamespace                           {magicsquare}
-\installsimplecommandhandler\????magicsquare{magicsquare}\????magicsquare
+% Experiment: simpler setup command handler...
+
+\installnamespace                              {magicsquare}
+\installsetuponlycommandhandler\????magicsquare{magicsquare}
 
 \startsetups[\????magicsquare:\c!renderingsetup:\v!color]
-\expandedrepeat\numexpr\magicsquareparameter\c!n\relax{
-  \expandedrepeat\numexpr\magicsquareparameter\c!n\relax{
+\cdef\c_n{\magicsquareparameter\c!n}
+\expandedrepeat\numexpr\c_n\relax{
+  \expandedrepeat\numexpr\c_n\relax{
     \definecolor[\????magicsquare:\v!color:##P:##I]
-      [h=\the\numexpr(360*\clf_magicsquarecell##P##I):(\magicsquareparameter\c!n*\magicsquareparameter\c!n)\relax,
-       v=1,
-       s=0.5]%
+      [h=\the\numexpr(360*\clf_magicsquarecell##P##I):(\c_n*\c_n)\relax,v=1,s=0.5]%
     \setupTABLE[##P][##I]
       [\c!background=\v!color,
        \c!backgroundcolor=\????magicsquare:\v!color:##P:##I]%
@@ -62,27 +63,25 @@
    \c!renderingsetup=\v!none]
 
 \permanent\tolerant\protected\def\magicsquare[#S#parameters]%
-{\begingroup%
- \ifarguments\or
- \setupmagicsquare[#parameters]%
- \fi
- \clf_magicsquareinit\numexpr\magicsquareparameter\c!n\relax%
- \ifempty{\magicsquareparameter\c!renderingsetup}
- \else
-  \directsetup{\????magicsquare:\c!renderingsetup:\magicsquareparameter\c!renderingsetup}%
- \fi
- \bTABLE
-  [#parameters,
-   \c!width=\magicsquareparameter\c!size,
-   \c!height=\magicsquareparameter\c!size,
-   \c!align=\magicsquareparameter\c!align]%
- \clf_magicsquare%
- \eTABLE%
- \clf_magicsquarereset%
- \endgroup}
+  {\begingroup%
+   \setupmagicsquare[#parameters]%
+   \clf_magicsquareinit\numexpr\magicsquareparameter\c!n\relax%
+   \ifempty{\magicsquareparameter\c!renderingsetup}%
+   \else
+    \directsetup{\????magicsquare:\c!renderingsetup:\magicsquareparameter\c!renderingsetup}%
+   \fi%
+   \bTABLE
+    [#parameters,
+     \c!width=\magicsquareparameter\c!size,
+     \c!height=\magicsquareparameter\c!size,
+     \c!align=\magicsquareparameter\c!align]%
+   \clf_magicsquare%
+   \eTABLE%
+   \clf_magicsquarereset%
+   \endgroup}
 
-\installnamespace                           {latinsquare}
-\installsimplecommandhandler\????latinsquare{latinsquare}\????latinsquare
+\installnamespace                              {latinsquare}
+\installsetuponlycommandhandler\????latinsquare{latinsquare}
 
 \startsetups[\????latinsquare:\c!renderingsetup:\v!none]
 \stopsetups
@@ -105,24 +104,22 @@
    \c!renderingsetup=\v!none]
 
 \permanent\tolerant\protected\def\latinsquare[#S#parameters]%
-{\begingroup%
- \ifarguments\or
- \setuplatinsquare[#parameters]%
- \fi
- \clf_latinsquareinit\numexpr\latinsquareparameter\c!n\relax%
- \ifempty{\latinsquareparameter\c!renderingsetup}
- \else
-  \directsetup{\????latinsquare:\c!renderingsetup:\latinsquareparameter\c!renderingsetup}%
- \fi
- \bTABLE
-  [#parameters,
-   \c!width=\latinsquareparameter\c!size,
-   \c!height=\latinsquareparameter\c!size,
-   \c!align=\latinsquareparameter\c!align]%
- \clf_latinsquare%
- \eTABLE%
- \clf_latinsquarereset%
- \endgroup}
+  {\begingroup%
+   \setuplatinsquare[#parameters]%
+   \clf_latinsquareinit\numexpr\latinsquareparameter\c!n\relax%
+   \ifempty{\latinsquareparameter\c!renderingsetup}%
+   \else
+    \directsetup{\????latinsquare:\c!renderingsetup:\latinsquareparameter\c!renderingsetup}%
+   \fi%
+   \bTABLE
+    [#parameters,
+     \c!width=\latinsquareparameter\c!size,
+     \c!height=\latinsquareparameter\c!size,
+     \c!align=\latinsquareparameter\c!align]%
+   \clf_latinsquare%
+   \eTABLE%
+   \clf_latinsquarereset%
+   \endgroup}
 
 \protect
 
@@ -168,6 +165,14 @@
 
 \getbuffer
 
+\startbuffer
+\magicsquare
+\stopbuffer
+
+\typebuffer
+
+\getbuffer
+
 \stopsection
 
 % Latin squares
@@ -192,3 +197,5 @@
 
 \stopsection
 \stoptext
+
+% vim: tw=80:ts=2:sts=2:expandtab:wrap:linebreak:breakindent

@@ -1,5 +1,5 @@
 if not modules then modules = {} end modules["t-squares"] = {
-  version = "2023-09-01",
+  version = "2024-01-04",
   comment = "Magic and Latin squares",
   author = "Jairo A. del Rio",
   copyright = "Jairo A. del Rio",
