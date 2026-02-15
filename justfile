@@ -15,6 +15,6 @@ build:
   cp "LICENSE" "VERSION" "CHANGELOG.md" "README.md" "{{temp_folder}}"
   cp "{{tex_module_file}}" "{{tex_folder}}"
   cp "meta-imp-latinsquare.lmt" "meta-imp-latinsquare.mkxl" "meta-imp-magicsquare.lmt" "meta-imp-magicsquare.mkxl" "{{tex_folder}}"
-  mv "{{tex_doc_file}}" "{{doc_folder}}"
+  cp "{{tex_doc_file}}" "{{doc_folder}}"
   cd "{{temp_folder}}" && zip -r "../{{zip_file}}" .
   rm -rf "{{temp_folder}}"

@@ -1,5 +1,7 @@
 # squares
 
+## About
+
 This module provides two commands and two command handlers, as well as two
 Metafun macros:
 
@@ -11,13 +13,11 @@ Metafun macros:
 `\latinsquare` understands the following set of parameters.
 
 ```tex
-\setuplatinsquare
+\latinsquare
   [            n=5,
             size=2em,
      alternative=none,
    rulethickness=.5bp]
-```
-```
 ```
 
 `lmt_latinsquare` has a similar interface:
@@ -28,23 +28,21 @@ p := image(
   lmt_latinsquare [
                 n = 5,
              size = 2EmWidth,
-      alternative = "none",
+      alternative = "none", % none, color
     rulethickness = .5bp
   ];
 );
-```
-```
 ```
 
 `\magicsquare` understands the following set of parameters:
 
 ```tex
-\setupmagicsquare
+\magicsquare
   [            n=5,
             size=2em,
-     alternative=none,
-        rotation=0,
-         reverse=none,
+     alternative=color,    % none, color
+        rotation=0,        % 90, 180, 270
+         reverse=vertical, % none, vertical, horizontal, both
    rulethickness=.5bp]
 ```
 
@@ -56,15 +54,15 @@ p := image(
   lmt_magicsquare [
                n = 5,
             size = 2EmWidth,
-     alternative = "none",
+     alternative = "none", % "none", "color"
         rotation = 0,
-         reverse = "none",
+         reverse = "none", % "none", "vertical", "horizontal", "both"
    rulethickness = .5bp
   ];
 );
 ```
-```
-```
+
+## Notice
 
 _Caveat emptor_: this module is only for ConTeXt LMTX. I no longer use ConTeXt
 MKIV, so no support is provided, sorry. Moreover, I'm using cutting-edge
